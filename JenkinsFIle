@@ -1,0 +1,13 @@
+pipeline {
+  agent any
+  stages {
+    stage('init'){
+      stages {
+        script {
+          echo 'Hello Jenkins'
+        }
+      }
+    }
+  }
+
+}
