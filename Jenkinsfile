@@ -2,7 +2,7 @@ pipeline {
   agent any
   stages {
     stage('init'){
-      stages {
+      steps {
         script {
           echo 'Hello Jenkins'
           sh 'node --version'
