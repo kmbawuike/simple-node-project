@@ -2,7 +2,7 @@ pipeline {
   agent any
   stages {
 
-    stage('Increment version') {
+    stage('increment') {
       steps {
         script {
           echo 'Incrementing version'
