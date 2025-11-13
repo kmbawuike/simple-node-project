@@ -6,6 +6,7 @@ pipeline {
       steps {
         script {
           echo 'Incrementing version'
+          sh 'cd app'
             def version
             def msg = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim() // print out commit headline
             if (msg.contains('BREAKING CHANGE')) {
