@@ -7,6 +7,7 @@ pipeline {
           echo 'Hello Jenkins'
           sh 'node --version'
           sh 'npm --version'
+          echo "Hello Jenkins"
         }
       }
     }
