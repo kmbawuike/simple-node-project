@@ -5,6 +5,8 @@ pipeline {
       stages {
         script {
           echo 'Hello Jenkins'
+          sh 'node --version'
+          sh 'npm --version'
         }
       }
     }
