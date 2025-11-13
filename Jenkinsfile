@@ -6,7 +6,7 @@ pipeline {
       steps {
         script {
           echo 'Incrementing version'
-          sh 'cd app'
+          dir('app'){
             def version
             def msg = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim() // print out commit headline
             if (msg.contains('BREAKING CHANGE')) {
@@ -17,6 +17,8 @@ pipeline {
                 version = sh(script: 'npm version patch', returnStdout: true).trim().replace('v', '')
             }
             env.IMAGE_NAME = version
+          }
+       
         }
       }
     }
@@ -24,21 +26,26 @@ pipeline {
     stage('test') {
       steps {
         script {
-          echo 'Testing... the application'
-          sh 'npm install'
-          sh 'npm test'
+          dir('app'){
+            echo 'Testing... the application'
+            sh 'npm install'
+            sh 'npm test'
+          }
         }
       }
     }
     stage('build') {
       steps {
         script {
-          withCredentials([usernamePassword(credentialsId: 'kelz-github', usernameVariable: 'USER', passwordVariable: "PASS")]){
-          echo 'Building Docker Image... the application'
-          sh "docker build -t kelz107/nana-projects:${env.IMAGE_NAME}"
-          sh "echo $PASS | docker login -u $USER --password-stdin" 
-          sh "docker push kelz107/nana-projects:${env.IMAGE_NAME}"
+          dir('app'){
+            withCredentials([usernamePassword(credentialsId: 'kelz-github', usernameVariable: 'USER', passwordVariable: "PASS")]){
+            echo 'Building Docker Image... the application'
+            sh "docker build -t kelz107/nana-projects:${env.IMAGE_NAME}"
+            sh "echo $PASS | docker login -u $USER --password-stdin" 
+            sh "docker push kelz107/nana-projects:${env.IMAGE_NAME}"
+            }
           }
+
         }
       }
     }
