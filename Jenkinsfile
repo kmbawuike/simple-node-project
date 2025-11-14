@@ -28,6 +28,7 @@ pipeline {
                               npm version patch
                             """, returnStdout: true).trim().replace('v', '')
             }
+            echo "Version..... ${version}"
             env.IMAGE_NAME = version
           }
        
