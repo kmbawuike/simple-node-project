@@ -37,15 +37,12 @@ pipeline {
     stage('build') {
       steps {
         script {
-          dir('app'){
-            withCredentials([usernamePassword(credentialsId: 'kelz-github', usernameVariable: 'USER', passwordVariable: "PASS")]){
-            echo 'Building Docker Image... the application'
-            sh "docker build -t kelz107/nana-projects:${env.IMAGE_NAME}"
-            sh "echo $PASS | docker login -u $USER --password-stdin" 
-            sh "docker push kelz107/nana-projects:${env.IMAGE_NAME}"
-            }
+          withCredentials([usernamePassword(credentialsId: 'jenkins-docker-hub', usernameVariable: 'USER', passwordVariable: "PASS")]){
+          echo 'Building Docker Image... the application'
+          sh "docker build -t kelz107/nana-projects:${env.IMAGE_NAME}"
+          sh "echo $PASS | docker login -u $USER --password-stdin" 
+          sh "docker push kelz107/nana-projects:${env.IMAGE_NAME}"
           }
-
         }
       }
     }
