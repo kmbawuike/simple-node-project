@@ -55,20 +55,23 @@ pipeline {
       }
     }
 
-    stage('committing incremented version to github'){
+    stage('Commit and Push Version Bump') {
       steps {
-        script {
-          def encodedPass = java.net.URLEncoder.encode(PASS, "UTF-8")
-            withCredentials([usernamePassword(credentialsId: 'kelz-github', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                sh 'git config --global user.email "jenkins@example.com"'
-                sh 'git config --global user.name "jenkins"'
-                echo "https://${USER}:${encodedPass}@github.com/kmbawuike/simple-node-project.git"
-                sh 'git remote set-url origin https://$USER:$PASS@github.com/kmbawuike/simple-node-project.git'
-                sh 'git add .'
-                sh 'git commit -m "ci: version bump"'
-                sh 'git push origin HEAD:jenkins-ci'
-            }
-        }
+          sshagent(['git-ssh']) {
+              sh '''
+                  git config user.email "jenkins@example.com"
+                  git config user.name "jenkins"
+
+                  # Ensure remote is using SSH
+                  git remote set-url origin git@github.com:kmbawuike/simple-node-project.git
+
+                  git add .
+                  git commit -m "ci: version bump" || echo "No changes to commit"
+
+                  # Create branch if it doesn't exist
+                  git push origin HEAD:jenkins-ci
+              '''
+          }
       }
     }
   }
