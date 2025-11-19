@@ -69,7 +69,7 @@ pipeline {
                   git commit -m "ci: version bump" || echo "No changes to commit"
 
                   # Create branch if it doesn't exist
-                  git push origin HEAD:jenkins-ci
+                  git push origin HEAD:master
               '''
           }
       }
