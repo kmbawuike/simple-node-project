@@ -58,11 +58,11 @@ pipeline {
     stage('committing incremented version to github'){
       steps {
         script {
+          def encodedPass = java.net.URLEncoder.encode(PASS, "UTF-8")
             withCredentials([usernamePassword(credentialsId: 'kelz-github', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                # git config here for the first time run
                 sh 'git config --global user.email "jenkins@example.com"'
                 sh 'git config --global user.name "jenkins"'
-                echo 'https://$USER:$PASS@github.com/kmbawuike/simple-node-project.git'
+                echo "https://${USER}:${encodedPass}@github.com/kmbawuike/simple-node-project.git"
                 sh 'git remote set-url origin https://$USER:$PASS@github.com/kmbawuike/simple-node-project.git'
                 sh 'git add .'
                 sh 'git commit -m "ci: version bump"'
