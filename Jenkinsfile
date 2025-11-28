@@ -1,3 +1,10 @@
+library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
+    [$class: 'GitSCMSource',
+    remote: 'https://github.com/kmbawuike/java-jenkins-shared-library.git',
+    credentialsID: 'kelz-github'
+    ]
+)
+
 pipeline {
   agent any
   stages {
@@ -40,7 +47,7 @@ pipeline {
 
     stage('Commit and Push Version Bump') {
       steps {
-         commitAndBump('git-ssh', 'git@github.com:kmbawuike/simple-node-project.git', 'feat/jenkins_ci')
+         commitAndBump('git-ssh', 'git@github.com:kmbawuike/simple-node-project.git', 'master')
       }
     }
   }
