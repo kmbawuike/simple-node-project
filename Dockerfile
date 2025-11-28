@@ -13,5 +13,7 @@ WORKDIR /home/app
 #install dependencies
 RUN npm install
 
+EXPOSE 3000
+
 #start application 
 CMD ["node", "server.js"]
