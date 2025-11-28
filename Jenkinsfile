@@ -40,7 +40,7 @@ pipeline {
 
     stage('Commit and Push Version Bump') {
       steps {
-         commitAndBump('git-ssh', 'git@github.com:kmbawuike/simple-node-project.git', 'main')
+         commitAndBump('git-ssh', 'git@github.com:kmbawuike/simple-node-project.git', 'feat/jenkins_ci')
       }
     }
   }
