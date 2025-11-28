@@ -40,7 +40,12 @@ pipeline {
     stage('deploy'){
       steps {
         script{
-          deployDockerImage("aws-ec2-ssh", "aws-ec2@15.223.209.219", "3000:3000", env.IMAGE_NAME)
+             ssh-agent(['aws-ec2-ssh']) {
+                sh "ssh -o StrictHostKeyChecking=no aws-ec2@15.223.209.219"
+                sh "docker pull ${env.IMAGE_NAME}"
+                sh "docker run -d -p 3000:3000 ${env.IMAGE_NAME}"
+            }
+          // deployDockerImage("aws-ec2-ssh", "aws-ec2@15.223.209.219", "3000:3000", env.IMAGE_NAME)
         }
       }
     }
