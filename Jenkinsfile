@@ -13,7 +13,7 @@ pipeline {
       steps {
         script {
           dir('app'){
-            incrementNodeApplication("kelz107/nana-projects/node-app")
+            incrementNodeApplication("kelz107/nana-projects")
           }
         }
       }
