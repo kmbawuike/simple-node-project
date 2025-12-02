@@ -43,9 +43,8 @@ pipeline {
           def ec2Instance = "ec2-user@99.79.74.154"
           def shellCmd = "bash ./server-cmd.sh ${env.IMAGE_NAME}"
           ssh-agent(['aws-ec2-ssh']) {
-              // sh "scp -o StrictHostKeyChecking=no server-cmd.sh ${ec2Instance}:/home/ec2-user"
-              // sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
-              sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} echo hello world"
+              sh "scp -o StrictHostKeyChecking=no server-cmd.sh ${ec2Instance}:/home/ec2-user"
+              sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
             }
         }
       }
